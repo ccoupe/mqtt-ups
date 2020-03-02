@@ -1,0 +1,15 @@
+{
+  "mqtt_server_ip": "192.168.1.7",
+  "mqtt_port": 1883,
+  "mqtt_client_name": "tv_hub__ups",
+  "homie_device": "hubitat_ups",
+  "homie_name": "Hubitat/TV UPS Amazon",
+  "nut_ups": "tv_ups"
+  "mqtt_send_min": 5,
+  "ups_poll": 60,
+  "hubitat_ip": "192.168.1.5"
+  "hubitat_user": "admin",
+  "hubitat_pw":, "tssgnu",
+  "hubitat_pwr_perc":20
+  "hubitat_pwr_min":8
+}

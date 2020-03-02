@@ -1,0 +1,10 @@
+[Unit]
+Description=MQTT UPS monitor
+After=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/mqttups.sh
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
