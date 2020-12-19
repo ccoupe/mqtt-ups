@@ -1,6 +1,7 @@
 [Unit]
 Description=MQTT UPS monitor
-After=network-online.target
+After=nut-monitor.service
+Wants=nut-monitor.service
 
 [Service]
 ExecStart=/usr/local/bin/mqttups.sh
