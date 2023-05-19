@@ -4,7 +4,7 @@ After=nut-monitor.service
 Wants=nut-monitor.service
 
 [Service]
-ExecStart=/usr/local/bin/mqttups.sh
+ExecStart=/usr/local/lib/mqttups/mqttups.sh
 Restart=on-abort
 
 [Install]

@@ -75,6 +75,7 @@ while True:
     with PyNUTClient() as s:
       status = s.list_vars(settings.nut_ups)
   except:
+      print("Failed to get ups status")
       pass
 
   # did we get good values?
@@ -91,6 +92,7 @@ while True:
   # reset warning loop when we get a good status
   unresp = 0
   # if On Battery (aka not 'OL')
+  print("STATUS: ",status)
   if status['ups.status'] != 'OL':
     chg = int(status['battery.charge'])
     tmo = int(status['battery.runtime'])

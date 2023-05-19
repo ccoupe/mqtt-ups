@@ -16,6 +16,7 @@ class Homie_MQTT:
  
     # init server connection
     self.client = mqtt.Client(settings.mqtt_client_name, False)
+    self.client.reconnect_delay_set(min_delay=1, max_delay=60)
     #self.client.max_queued_messages_set(3)
     hdevice = self.hdevice = self.settings.homie_device  # "device_name"
     hlname = self.hlname = self.settings.homie_name     # "Display Name"
@@ -24,6 +25,7 @@ class Homie_MQTT:
     self.client.on_subscribe = self.on_subscribe
     self.client.on_message = self.on_message
     self.client.on_disconnect = self.on_disconnect
+    self.mqtt_server = settings.mqtt_server
     rc = self.client.connect(settings.mqtt_server, settings.mqtt_port)
     if rc != mqtt.MQTT_ERR_SUCCESS:
         print("network missing?")
@@ -71,7 +73,7 @@ class Homie_MQTT:
     self.publish_structure("homie/"+hdevice+"/sensor/runtime/$retained", "true")
     # Property of 'json' = 0..100 minutes
     self.publish_structure("homie/"+hdevice+"/sensor/json/$name", hlname)
-    self.publish_structure("homie/"+hdevice+"/sensor/json/$datatype", "integer")
+    self.publish_structure("homie/"+hdevice+"/sensor/json/$datatype", "string")
     self.publish_structure("homie/"+hdevice+"/sensor/json/$settable", "false")
     self.publish_structure("homie/"+hdevice+"/sensor/json/$retained", "true")
    # Done with structure. 
@@ -95,15 +97,20 @@ class Homie_MQTT:
     return self.mqtt_connected
 
   def on_connect(self, client, userdata, flags, rc):
-    if rc == 0:
-      print("Connecting to %s" % self.mqtt_server_ip)
+    if rc != mqtt.MQTT_ERR_SUCCESS:
+      self.log.warn("Connection failed")
+      self.mqtt_connected = False
+      time.sleep(60)
+      self.client.reconnect()
     else:
-      print("Failed to connect:", rc)
+      self.mqtt_connected = True
+    
        
   def on_disconnect(self, client, userdata, rc):
     self.mqtt_connected = False
-    log("mqtt reconnecting")
-    self.client.reconnect()
+    if rc != 0:
+      self.log.warn(f"mqtt disconnect: {rc}, attempting reconnect")
+      self.client.reconnect()
       
   def send_pwr_state(self, status, warning):
     st = 'mains'
