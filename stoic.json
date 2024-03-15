@@ -1,0 +1,10 @@
+{
+  "mqtt_server_ip": "stoic.local",
+  "mqtt_port": 1883,
+  "mqtt_client_name": "router_ups",
+  "homie_device": "router_ups",
+  "homie_name": "Router UPS APC",
+  "nut_ups": "routerups",
+  "mqtt_send_min": 5,
+  "ups_poll": 60
+}

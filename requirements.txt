@@ -1,0 +1,11 @@
+certifi
+charset-normalizer
+idna
+nut2
+paho-mqtt
+pip     
+requests
+setuptools
+urllib3  
+websocket-client
+websockets
